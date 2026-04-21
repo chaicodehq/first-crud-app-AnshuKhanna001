@@ -9,4 +9,11 @@ import mongoose from "mongoose";
  */
 export function validateObjectId(req, res, next) {
   // Your code here
+  const TodoID = req.params.id;
+
+  const checkTodoId = mongoose.Types.ObjectId.isValid(TodoID);
+  if (!checkTodoId)
+    return res.status(400).json({ error: { message: "Invalid id" } });
+
+  next();
 }

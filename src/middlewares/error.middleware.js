@@ -10,4 +10,26 @@
  */
 export function errorHandler(err, req, res, next) {
   // Your code here
+  if (err.name === "ValidationError") {
+    return res.status(400).json({
+      error: {
+        message: err.message,
+      },
+    });
+  }
+
+  if (err.name === "CastError") {
+    return res.status(400).json({
+      error: {
+        message: "Invalid id format",
+      },
+    });
+  }
+
+  const statusCode = err.status || 500;
+  return res.status(statusCode).json({
+    error: {
+      message: err.message || "An unexpected error occurred",
+    },
+  });
 }
